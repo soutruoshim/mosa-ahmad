@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "214141693143",
+    "firebase_url": "https://mosaeventapp-9f595.firebaseio.com",
+    "project_id": "mosaeventapp-9f595",
+    "storage_bucket": "mosaeventapp-9f595.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214141693143:android:c7eec2bec738d4a1",
+        "android_client_info": {
+          "package_name": "com.srhdp.mosa_event"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214141693143-mp5bdt1cku9aj52da3v8c6t4f0gbs6u4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzrUQvV8vnxycEW0lnZULoHVV8YY1SX6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214141693143-mp5bdt1cku9aj52da3v8c6t4f0gbs6u4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
