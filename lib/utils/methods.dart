@@ -309,7 +309,8 @@ class Methods {
         child: new Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(),
+            CircularProgressIndicator( color: Colors.cyan,
+              strokeWidth: 3,),
             SizedBox(height: 20),
             Center(child: Text(messsage)),
           ],
@@ -762,7 +763,8 @@ class CustomProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator());
+    return Center(child: CircularProgressIndicator( color: Colors.cyan,
+      strokeWidth: 3,));
   }
 }
 
@@ -771,7 +773,8 @@ class CustomLazyLoadingProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.all(10), child: Center(child: CircularProgressIndicator()));
+    return Padding(padding: EdgeInsets.all(10), child: Center(child: CircularProgressIndicator( color: Colors.cyan,
+      strokeWidth: 3,)));
   }
 }
 

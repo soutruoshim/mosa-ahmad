@@ -70,7 +70,7 @@ class _NewsModelState extends State<NewsModel> {
                         child: Text(
                           widget.itemNews.categoryName,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
                           ),

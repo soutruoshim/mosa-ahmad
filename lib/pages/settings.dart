@@ -50,7 +50,8 @@ class _SettingsState extends State<Settings> {
                     return snapshot.hasData
                         ? getSettingPageDesign()
                         : !isDataFetched
-                            ? Center(child: CircularProgressIndicator())
+                            ? Center(child: CircularProgressIndicator( color: Colors.cyan,
+                      strokeWidth: 3,))
                             : const Center(child: Text('Something went wrong'));
                   },
                 ),

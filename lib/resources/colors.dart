@@ -1,26 +1,26 @@
 import 'dart:ui';
 
 class ColorsApp {
-  static Color primary = Color(0xffff716a);
-  static Color primary_AA = Color(0xAAFF716A);
-  static Color primary_50 = Color(0x50FF716A);
+  static Color primary = Color(0xff4dcdcd);
+  static Color primary_AA = Color(0xAAbaf1f1);
+  static Color primary_50 = Color(0x50baf1f1);
 
-  static Color gradient1 = Color(0xFFFF8E6A);
-  static Color gradient2 = Color(0xFFFF716A);
+  static Color gradient1 = Color(0xFF00c5ff);
+  static Color gradient2 = Color(0xFF4dcdcd);
 
   static Color bg = Color(0xffe0effb);
   static Color bgBottomNavBar = Color(0xffffffff);
-  static Color bgBottomNavBarItemSelected = Color(0xffff716a);
-  static Color bgBottomNavBarItemUnSelected = Color(0xffffeae9);
+  static Color bgBottomNavBarItemSelected = Color(0xff4dcdcd);
+  static Color bgBottomNavBarItemUnSelected = Color(0xffbaf1f1);
   static Color bgCardNews = Color(0xffffffff);
   static Color bg_comment_dialog = Color(0xffffffff);
   static Color bg_edit_text = Color(0xffffffff);
   static Color bg_bottomsheet = Color(0xffffffff);
 
-  static Color bottomNavItem = Color(0xffff716a);
-  static Color indicatorActive = Color(0xfffebeba);
-  static Color indicatorClosed = Color(0xffff716a);
-  static Color button_primary = Color(0xffff716a);
+  static Color bottomNavItem = Color(0xff4dcdcd);
+  static Color indicatorActive = Color(0xAA8ce2e2);
+  static Color indicatorClosed = Color(0xff4dcdcd);
+  static Color button_primary = Color(0xff4dcdcd);
   static Color button_social = Color(0xffffffff);
 
   static Color edittext_border = Color(0xFFE4E7E6);
@@ -39,8 +39,8 @@ class ColorsApp {
   static Color line_vertical_grey_80 = Color(0x80D9D9D9);
   static Color line_vertical_grey = Color(0xFFD9D9D9);
 
-  static Color bg_icons_settings = Color(0x30FF716A);
-  static Color bg_date = Color(0x30FF716A);
+  static Color bg_icons_settings = Color(0xAAdeffff);
+  static Color bg_date = Color(0xAA8ce2e2);
   static Color bg_text_about_us = Color(0x3065637B);
   static Color bg_no_comment = Color(0x304E4B66);
   static Color bg_user_name = Color(0x204E4B66);
@@ -56,7 +56,7 @@ class ColorsApp {
   // Dark Mode Colors
 
   static Color bgBottomNavBar_dark = Color(0x803B4560);
-  static Color bgBottomNavBarItemUnSelected_dark = Color(0x30FF716A);
+  static Color bgBottomNavBarItemUnSelected_dark = Color(0xAA8ce2e2);
   static Color bgCardNews_dark = Color(0xff202638);
   static Color bg_comment_dialog_dark = Color(0xff3B4560);
   static Color bg_edit_text_dark = Color(0x603B4560);

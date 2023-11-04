@@ -60,7 +60,7 @@ class _SplashState extends State<Splash> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
           alignment: Alignment.bottomCenter,
           child: CircularProgressIndicator(
-            color: Colors.red,
+            color: Colors.cyan,
             strokeWidth: 3,
           ),
         ),
