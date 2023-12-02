@@ -12,7 +12,6 @@ import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../ads/banner_admob.dart';
 import '../ads/banner_wortise.dart';
 import '../apiservice/apiclient.dart';
@@ -26,6 +25,12 @@ import '../utils/constants.dart';
 import '../utils/methods.dart';
 import '../utils/sharedpref.dart';
 import 'news_by_search.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+// #docregion platform_imports
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class NewsDetail extends StatefulWidget {
   final ItemNews itemNews;
@@ -43,6 +48,8 @@ class _NewsDetailState extends State<NewsDetail> {
   double aspectRatio = 1;
   bool isVideoInitialized = false;
 
+  late final WebViewController _controller;
+
   @override
   void initState() {
     super.initState();
@@ -50,10 +57,33 @@ class _NewsDetailState extends State<NewsDetail> {
     loadView();
     loadNewsDetails();
     loadVideo();
+    // #docregion platform_features
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    final WebViewController controller =
+    WebViewController.fromPlatformCreationParams(params);
+    if (controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+    // #enddocregion platform_features
+
+    _controller = controller;
   }
+
 
   @override
   Widget build(BuildContext context) {
+    String url = "${Constants.SERVER_URL_PAGE}${ widget.itemNews.id}";
     return Container(
       decoration: Methods.getPageBgBoxDecoration(),
       child: Scaffold(
@@ -76,367 +106,11 @@ class _NewsDetailState extends State<NewsDetail> {
             }
           },
         ),
-        body: Column(children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  widget.itemNews.newsType != 'Video'
-                      ? CarouselSlider(
-                          options: CarouselOptions(aspectRatio: 1.85, autoPlay: true, viewportFraction: 1.0),
-                          items: widget.itemNews.arrayListGallery.map((e) {
-                            return Builder(builder: (context) {
-                              return Card(
-                                  margin: EdgeInsets.fromLTRB(10, 15, 10, 0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: CachedNetworkImage(
-                                      width: double.infinity,
-                                      imageUrl: e.image,
-                                      fit: BoxFit.cover,
-                                      errorWidget: (context, url, error) => Image.asset(
-                                        Images.placeholder_news,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      placeholder: (context, url) => Image.asset(
-                                        Images.placeholder_news,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ));
-                            });
-                          }).toList(),
-                        )
-                      : isVideoInitialized
-                          ? VisibilityDetector(
-                              key: Key('news_detail'),
-                              onVisibilityChanged: (info) {
-                                try {
-                                  if (info.visibleFraction == 0) {
-                                    chewieController.pause();
-                                  }
-                                } catch (e) {}
-                              },
-                              child: AspectRatio(aspectRatio: aspectRatio, child: Chewie(controller: chewieController)),
-                            )
-                          : SizedBox(
-                              width: double.infinity,
-                              height: 150,
-                              child: CustomProgressBar(),
-                            ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Stack(
-                              alignment: AlignmentDirectional.centerStart,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(32, 5, 6, 5),
-                                  decoration: BoxDecoration(
-                                      color: !SharedPref.isDarkMode() ? ColorsApp.bg_user_name : ColorsApp.bg_user_name_dark,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Text(
-                                    widget.itemNews.userName,
-                                    overflow: TextOverflow.fade,
-                                    maxLines: 1,
-                                    softWrap: false,
-                                    style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 10, fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                                CircleAvatar(
-                                  radius: 14,
-                                  foregroundImage: NetworkImage(widget.itemNews.userImage),
-                                  backgroundImage: AssetImage(Images.ic_profile),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).textTheme.bodyLarge!.backgroundColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                widget.itemNews.categoryName,
-                                style: TextStyle(
-                                  color: Theme.of(context).textTheme.bodyLarge!.color,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Text(
-                            widget.itemNews.title,
-                            style: TextStyle(
-                                color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 18, fontWeight: FontWeight.w600, height: 1.3),
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(7),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).textTheme.bodyLarge!.backgroundColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                widget.itemNews.date,
-                                style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 11, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                              decoration: BoxDecoration(color: ColorsApp.bg_no_comment, borderRadius: BorderRadius.circular(20)),
-                              child: Row(children: [
-                                Image(width: 15, height: 15, image: AssetImage(Images.ic_eye), color: ColorsApp.primary),
-                                SizedBox(width: 5),
-                                Text(
-                                  widget.itemNews.totalViews,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 10, fontWeight: FontWeight.w600),
-                                ),
-                              ]),
-                            ),
-                            SizedBox(width: 10),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                              decoration: BoxDecoration(color: ColorsApp.bg_no_comment, borderRadius: BorderRadius.circular(20)),
-                              child: Row(children: [
-                                Image(width: 15, height: 15, image: AssetImage(Images.ic_comment)),
-                                SizedBox(width: 5),
-                                Text(
-                                  widget.itemNews.totalComment,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 10, fontWeight: FontWeight.w600),
-                                ),
-                              ]),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Html(
-                          data: widget.itemNews.description,
-                          style: {
-                            "body": Style(margin: Margins.all(0), fontSize: FontSize.large),
-                          },
-                          onLinkTap: (url, attributes, element) {
-                            _launchUrl(Uri.parse(url!));
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: widget.itemNews.tags
-                                .split(',')
-                                .map((tags) => GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                          return NewsBySearch(searchText: tags);
-                                        }));
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: !SharedPref.isDarkMode() ? ColorsApp.border_tags : ColorsApp.border_tags_dark,
-                                            style: BorderStyle.solid,
-                                            width: 1.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(50.0),
-                                        ),
-                                        child: Text(
-                                          '#' + tags,
-                                          style: TextStyle(
-                                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(children: [
-                          Text(
-                            Strings.comments,
-                            style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                          Expanded(child: SizedBox()),
-                          TextButton(
-                            onPressed: () {
-                              showBottomDialog();
-                            },
-                            child: Text(
-                              Strings.see_all,
-                              style: TextStyle(color: ColorsApp.primary, fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                          )
-                        ]),
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: !SharedPref.isDarkMode() ? ColorsApp.border_comment : ColorsApp.border_comment_dark,
-                              style: BorderStyle.solid,
-                              width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Column(children: [
-                            Row(
-                              children: [
-                                Text(
-                                  Strings.comments,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 14, fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(width: 15),
-                                Text(
-                                  widget.itemNews.totalComment,
-                                  style: TextStyle(color: ColorsApp.primary, fontSize: 12, fontWeight: FontWeight.w600),
-                                ),
-                                Expanded(child: SizedBox(width: 15)),
-                                GestureDetector(
-                                  onTap: () => showBottomDialog(),
-                                  child: Image(
-                                    width: 18,
-                                    height: 18,
-                                    image: AssetImage(Images.ic_comment_list),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 15),
-                            Methods.getHorizontalGreyLine(1.5),
-                            SizedBox(height: 15),
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 20,
-                                  foregroundImage: NetworkImage(SharedPref.getUserImage()),
-                                  backgroundImage: AssetImage(Images.ic_profile),
-                                ),
-                                SizedBox(width: 15),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () => showBottomDialog(),
-                                    child: TextField(
-                                      enabled: false,
-                                      textInputAction: TextInputAction.done,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                                        filled: true,
-                                        fillColor: !SharedPref.isDarkMode() ? Colors.white : ColorsApp.bg_edit_text_dark,
-                                        hintText: Strings.comments,
-                                        isDense: true,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(50),
-                                          borderSide: BorderSide(
-                                            width: 1.5,
-                                            color: !SharedPref.isDarkMode() ? ColorsApp.edittext_border : ColorsApp.edittext_border_dark,
-                                          ),
-                                        ),
-                                        disabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(50),
-                                          borderSide: BorderSide(
-                                            width: 1.5,
-                                            color: !SharedPref.isDarkMode() ? ColorsApp.edittext_border : ColorsApp.edittext_border_dark,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 15),
-                            if (widget.itemNews.arrayListComments.length > 0)
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: widget.itemNews.arrayListComments.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return CommentModel(itemComments: widget.itemNews.arrayListComments[index]);
-                                },
-                                separatorBuilder: (context, index) => SizedBox(
-                                  height: 12,
-                                ),
-                              ),
-                          ]),
-                        ),
-                        SizedBox(height: 10),
-                        if (widget.itemNews.arrayListRelatedNews.length > 0)
-                          Row(children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Text(
-                                Strings.related_news,
-                                style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: 18, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            Expanded(child: SizedBox()),
-                            // TextButton(
-                            //   onPressed: () {},
-                            //   child: Text(
-                            //     Strings.see_all,
-                            //     style: TextStyle(color: ColorsApp.primary, fontSize: 14, fontWeight: FontWeight.w500),
-                            //   ),
-                            // )
-                          ]),
-                        SizedBox(height: 10),
-                        if (widget.itemNews.arrayListRelatedNews.length > 0)
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: widget.itemNews.arrayListRelatedNews.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (SharedPref.getDeviceType() == 'mobile') {
-                                return NewsModel(
-                                    itemNews: widget.itemNews.arrayListRelatedNews[index], height: Constants.newsItemHeight, isNewsEdit: false);
-                              } else {
-                                return NewsModelTablet(
-                                    itemNews: widget.itemNews.arrayListRelatedNews[index], height: Constants.newsItemHeight, isNewsEdit: false);
-                              }
-                            },
-                          ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Constants.adType == Constants.AD_TYPE_ADMOB ? BannerAdmob() : BannerWortise(),
-          ),
-        ]),
-      ),
+  //       body: WebViewWidget(controller: _controller..loadHtmlString('''<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=0.9"><style type="text/css">
+  //   body { background: transparent; margin: 18; padding: 0;font-size:14px }}
+  // </style></head><body>${widget.itemNews.description}</body>
+  // </html>''')),
+        body: WebViewWidget(controller: _controller..loadRequest(Uri.parse(url)))),
     );
   }
 
@@ -489,7 +163,7 @@ class _NewsDetailState extends State<NewsDetail> {
 
   loadDoFavourite() async {
     ItemSuccess? itemSuccess =
-        await new ApiCLient().getDoFav(Constants.METHOD_DO_FAVOURITE, widget.itemNews.id.toString(), 'News', SharedPref.getUserID().toString());
+    await new ApiCLient().getDoFav(Constants.METHOD_DO_FAVOURITE, widget.itemNews.id.toString(), 'News', SharedPref.getUserID().toString());
 
     if (itemSuccess != null) {
       setState(() {

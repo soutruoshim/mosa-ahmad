@@ -4,6 +4,8 @@ import '../items/itemAppDetails.dart';
 
 class Constants {
   static const String SERVER_URL = 'https://mosa-ahmad.online/public/api/v1/';
+  static const String SERVER_URL_PAGE = 'https://mosa-ahmad.online/news/';
+
 
   static const String METHOD_APP_DETAILS = 'app_details';
 

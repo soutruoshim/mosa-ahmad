@@ -57,8 +57,8 @@ dev_dependencies:
   url_launcher: ^6.1.10
   cached_network_image: ^3.2.3 
   image_picker: ^0.8.6+3
-  webview_flutter: ^4.0.2
-  flutter_html: ^3.0.0-alpha.5
+  webview_flutter: ^4.4.2
+  flutter_html: ^3.0.0-beta.2
   chewie: ^1.5.0
   video_player: ^2.6.1
   youtube_player_flutter: ^8.1.2
@@ -68,6 +68,7 @@ dev_dependencies:
   intl: ^0.18.0
   visibility_detector: ^0.3.3
   change_app_package_name: ^1.1.0
+
 
 dependency_overrides:
   ffi: ^2.0.1

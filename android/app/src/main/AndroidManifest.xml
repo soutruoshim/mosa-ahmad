@@ -6,7 +6,9 @@
    <application
         android:label="Mosa Ahmad"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:usesCleartextTraffic="true"
+       >
         <activity
             android:name="com.srhdp.mosa_event.MainActivity"
             android:exported="true"
