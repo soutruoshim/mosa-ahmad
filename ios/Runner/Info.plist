@@ -31,7 +31,7 @@
 			<string>google</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.285130836980-jibap27831v3h27l5i5gvu512np3gcuf</string>
+				<string>214141693143-2as4l76i32oa0r6nbphh9iqnrd9fchmr.apps.googleusercontent.com</string>
 			</array>
 		</dict>
 		<dict>
@@ -83,6 +83,12 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
@@ -100,11 +106,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-    <key>UIRequiresFullScreen</key>
-    <true/>
-    <key>UIRequiredDeviceCapabilities</key>
-    <array>
-    <string>armv7</string>
-    </array>
 </dict>
 </plist>
