@@ -56,14 +56,14 @@ class _SplashState extends State<Splash> {
       fit: StackFit.expand,
       children: [
         Image.asset(fit: BoxFit.fitWidth, !SharedPref.isDarkMode() ? Images.splash : Images.splash_dark),
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-          alignment: Alignment.bottomCenter,
-          child: CircularProgressIndicator(
-            color: Colors.cyan,
-            strokeWidth: 3,
-          ),
-        ),
+        // Container(
+        //   padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+        //   alignment: Alignment.bottomCenter,
+        //   child: CircularProgressIndicator(
+        //     color: Colors.green.shade400,
+        //     strokeWidth: 3,
+        //   ),
+        // ),
       ],
     );
   }
