@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>214141693143-2as4l76i32oa0r6nbphh9iqnrd9fchmr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.214141693143-2as4l76i32oa0r6nbphh9iqnrd9fchmr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>214141693143-082rue7o2b1rvh332bqqjqma988bvsvq.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCtEr5W54K7_fjNU34er_9xCLcYu-diwvE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>214141693143</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.srhdp.mosaevent</string>
+	<key>PROJECT_ID</key>
+	<string>mosaeventapp-9f595</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mosaeventapp-9f595.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:214141693143:ios:00ee0abfeed019ba929492</string>
+	<key>DATABASE_URL</key>
+	<string>https://mosaeventapp-9f595.firebaseio.com</string>
+</dict>
+</plist>

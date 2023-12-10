@@ -6,7 +6,7 @@ import 'package:flutter_news_app/resources/strings.dart';
 import 'package:flutter_news_app/utils/sharedpref.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+//import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
@@ -16,10 +16,10 @@ void main() async {
   await SharedPref.init();
   await Firebase.initializeApp();
 
-  OneSignal.shared.setAppId(Strings.onesignal_app_id);
-  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-    print("Accepted permission: $accepted");
-  });
+  // OneSignal.shared.setAppId(Strings.onesignal_app_id);
+  // OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+  //   print("Accepted permission: $accepted");
+  // });
 
   runApp(MyApp());
 }

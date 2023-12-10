@@ -6,7 +6,7 @@ import 'package:flutter_news_app/pages/news_detail.dart';
 import 'package:flutter_news_app/resources/images.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_news_app/pages/dashboard.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+//import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter_news_app/pages/intro.dart';
 import 'package:flutter_news_app/utils/sharedpref.dart';
 import 'package:flutter/material.dart';
@@ -32,20 +32,20 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
 
-    OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult openedResult) {
-      if (openedResult.notification.additionalData!['post_title'].toString() != '' ||
-          openedResult.notification.additionalData!['external_link'].toString() != 'false') {
-        isNotification = true;
-        try {
-          postID = openedResult.notification.additionalData!['post_id'].toString();
-          postTitle = openedResult.notification.additionalData!['post_title'].toString();
-          postType = openedResult.notification.additionalData!['type'].toString();
-          externalLink = openedResult.notification.additionalData!['external_link'].toString();
-        } catch (e) {
-          print('error - ' + e.toString());
-        }
-      }
-    });
+    // OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult openedResult) {
+    //   if (openedResult.notification.additionalData!['post_title'].toString() != '' ||
+    //       openedResult.notification.additionalData!['external_link'].toString() != 'false') {
+    //     isNotification = true;
+    //     try {
+    //       postID = openedResult.notification.additionalData!['post_id'].toString();
+    //       postTitle = openedResult.notification.additionalData!['post_title'].toString();
+    //       postType = openedResult.notification.additionalData!['type'].toString();
+    //       externalLink = openedResult.notification.additionalData!['external_link'].toString();
+    //     } catch (e) {
+    //       print('error - ' + e.toString());
+    //     }
+    //   }
+    // });
   }
 
   @override
