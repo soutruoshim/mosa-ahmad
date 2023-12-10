@@ -2,7 +2,7 @@ class Strings {
   static String appName = 'Mosa Ahmad';
 
   static String onesignal_app_id = '037c0acb-b6a3-4f88-84c9-ff757ceb7f3d';
-  static String url_terms_condition = 'https://envato.viaviweb.in/news_app/page/2/terms-of-use';
+  static String url_terms_condition = 'https://mosa-ahmad.online/page/2/terms-of-use';
 
   static String moreAppUrlAndroid = 'https://play.google.com/store/apps/developer?id=Srh+Dp+Islam&hl=en&gl=US';
   static String moreAppUrliOS = 'https://apps.apple.com/us/developer/sout-rahim/id1468883698';
